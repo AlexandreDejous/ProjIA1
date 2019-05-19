@@ -87,28 +87,32 @@ def depthFirstSearch(problem):
 	print("Start's successors:", problem.getSuccessors(problem.getStartState()))
 	"""
 	"*** YOUR CODE HERE ***"
-	from game import Directions
 	from util import Stack
-	s = Directions.SOUTH
-	w = Directions.WEST
-	#v =(location, action, cost)
-	v = (problem.getStartState(), ' ', 0)
-	stack = Stack()#main stack
-	route = Stack()#result stack
-	stack.push(v)
-	route.push("")
-	discovered = set(v)#visited locations init
-	while stack.isEmpty==False:
-		v = stack.pop()
-		route.pop()
-		if problem.isGoalState(v):
-			a =0#
-		elif v not in discovered:
-			discovered.add(v)
-			for i in problem.getSuccessors(v[0]):#
-				stack.push(i)
-				route.push(v)#
-	return [s]
+	from game import Directions
+	fringe = Stack()
+	fringe.push(problem.getStartState())
+	route=[]
+	discovered = []
+	routeToCurrent=Stack()
+	current = fringe.pop()
+
+	while not problem.isGoalState(current):
+
+		if current not in discovered:
+
+			discovered.append(current)
+			successors = problem.getSuccessors(current)
+
+			for new, direction, cost in successors:
+				#print(new), print(direction)
+				fringe.push(new)
+				routeToCurrent.push(route + [direction])
+
+		current = fringe.pop()
+		route = routeToCurrent.pop()
+
+	return route
+
 	
 	#print("Is the start a goal?", problem.getStartState())
 	#print("Start's successors:", problem.getSuccessors(problem.getStartState()))
@@ -117,12 +121,60 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
 	"""Search the shallowest nodes in the search tree first."""
 	"*** YOUR CODE HERE ***"
-	util.raiseNotDefined()
+	from util import Queue
+	from game import Directions
+	fringe = Queue()
+	fringe.push(problem.getStartState())
+	route=[]
+	discovered = []
+	routeToCurrent=Queue()
+	current = fringe.pop()
+
+	while not problem.isGoalState(current):
+
+		if current not in discovered:
+
+			discovered.append(current)
+			successors = problem.getSuccessors(current)
+
+			for new, direction, cost in successors:
+				fringe.push(new)	
+				routeToCurrent.push(route + [direction])
+
+		current = fringe.pop()
+		route = routeToCurrent.pop()
+
+	return route
 
 def uniformCostSearch(problem):
 	"""Search the node of least total cost first."""
 	"*** YOUR CODE HERE ***"
-	util.raiseNotDefined()
+	from util import PriorityQueue
+	from game import Directions
+	fringe = PriorityQueue()
+	fringe.push(problem.getStartState(),0)
+	route=[]
+	discovered = []
+	routeToCurrent=PriorityQueue()
+	current = fringe.pop()
+
+	while not problem.isGoalState(current):
+
+		if current not in discovered:
+
+			discovered.append(current)
+			successors = problem.getSuccessors(current)
+
+			for new, direction, cost in successors:
+				costToCurrent = problem.getCostOfActions(route + [direction])
+				fringe.push(new, costToCurrent)	
+				routeToCurrent.push(route + [direction],costToCurrent)
+
+		current = fringe.pop()
+		route = routeToCurrent.pop()
+
+	return route
+
 
 def nullHeuristic(state, problem=None):
 	"""
@@ -134,8 +186,32 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
 	"""Search the node that has the lowest combined cost and heuristic first."""
 	"*** YOUR CODE HERE ***"
-	util.raiseNotDefined()
+	
+	from util import PriorityQueue
+	from game import Directions
+	fringe = PriorityQueue()
+	fringe.push(problem.getStartState(),0)
+	route=[]
+	discovered = []
+	routeToCurrent=PriorityQueue()
+	current = fringe.pop()
 
+	while not problem.isGoalState(current):
+
+		if current not in discovered:
+
+			discovered.append(current)
+			successors = problem.getSuccessors(current)
+
+			for new, direction, cost in successors:
+				costToCurrent = problem.getCostOfActions(route + [direction]) + heuristic(new, problem)
+				fringe.push(new, costToCurrent)	
+				routeToCurrent.push(route + [direction],costToCurrent)
+
+		current = fringe.pop()
+		route = routeToCurrent.pop()
+
+	return route
 
 # Abbreviations
 bfs = breadthFirstSearch
