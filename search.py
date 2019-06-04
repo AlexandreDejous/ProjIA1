@@ -130,21 +130,21 @@ def breadthFirstSearch(problem):
 	current = fringe.pop()
 	i = 0
 	while not problem.isGoalState(current):
-		print("----iteration ",i," --------, current is : ", current)
-		i+=1
+		#print("----iteration ",i," --------, current is : ", current)
+		#i+=1
 		
 		if current not in discovered:
 			discovered.append(current)
 			successors = problem.getSuccessors(current)
 
 			for new, direction, cost in successors:
-				print("succesor is : ",new," ------")
+				#print("succesor is : ",new," ------")
 				fringe.push(new)	
 				routeToCurrent.push(route + [direction])
-				#print("entered")
-		#print (fringe)
+
+
 		current = fringe.pop()
-		print(current, " popped----")
+		#print(current, " popped----")
 		route = routeToCurrent.pop()
 
 	return route
