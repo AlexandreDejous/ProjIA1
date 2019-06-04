@@ -481,9 +481,6 @@ def foodHeuristic(state, problem):
 	problem.heuristicInfo['wallCount']
 	"""
 	position, foodGrid = state
-	#pos = state[0]
-	#grid = state[1]
-	#print (len(foodGrid[:]))
 	d = []
 	for x in range (len(foodGrid[:])):
 		for y in range (len(foodGrid[x][:])):
@@ -491,7 +488,7 @@ def foodHeuristic(state, problem):
 				d.append(mazeDistance(position,(x,y),problem.startingGameState))
 	if len(d)>0:
 		return max(d)
-	return 0 # Default to trivial solution
+	return 0
 	
 	"*** YOUR CODE HERE ***"
 def euclideanDist(pos,goal):
@@ -527,7 +524,6 @@ class ClosestDotSearchAgent(SearchAgent):
 		walls = gameState.getWalls()
 		problem = AnyFoodSearchProblem(gameState)
 		"*** YOUR CODE HERE ***"
-		#euclideanHeuristic
 		foodGrid = food
 		posx, posy = 0,0
 		shortestDistance =100000 #i know it's bad practice... sorry :p
