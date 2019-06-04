@@ -27,3 +27,5 @@ python3 pacman.py -l mediumMaze -p SearchAgent -a fn=depthFirstSearch
 
 python pacman.py -l mediumMaze -p SearchAgent -a fn=breadthFirstSearch
 python3 pacman.py -l mediumMaze -p SearchAgent -a fn=breadthFirstSearch
+
+python pacman.py -l tinyCorners -p SearchAgent -a fn=bfs,prob=CornersProblem
